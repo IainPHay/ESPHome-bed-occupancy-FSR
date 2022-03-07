@@ -1,0 +1,1 @@
+# ESPHome-bed-occupancy-FSR
