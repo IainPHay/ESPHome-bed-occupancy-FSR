@@ -20,4 +20,5 @@ Example code is attached. You also need to set up two input numbers in Home assi
 
 The occupancy sensor can be used for whatever you want, turning a lowlevel light on if up in night is one example. I also use node red with an and gate to estabish when bout people up in the morning to open all the blinds, turn on the kettle etc.
 
-Further details to add
+Edit:
+Demo PCBS have been created for a dual ESP32 sensor and another with the facility to add a BME280 to this as well.
