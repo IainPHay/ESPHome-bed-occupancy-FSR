@@ -22,3 +22,7 @@ The occupancy sensor can be used for whatever you want, turning a lowlevel light
 
 PCBs
 2 PCBS have been designed allowing for a dual bed sensor with trim pots on the board to allow for resistance adjustment on the device, one has the capability of adding a BME280 for rood humidity, pressure and temperature. Schematics of both circuits and gerbers are in repo.
+
+![image](https://user-images.githubusercontent.com/25230544/179230404-f98b88e7-6566-4061-a53e-e39099181619.png)
+
+Example yaml for both is included, BOM to be added.
