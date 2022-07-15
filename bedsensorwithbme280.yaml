@@ -1,0 +1,178 @@
+esphome:
+  name: bedsensor
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: "ssid" #Change as required
+  password: "password" #Change as required
+  
+  ap:
+    ssid: "Bed sensor fallback Hotspot" #Change as required
+    password: "bedsensor" #Change as required
+  
+  manual_ip:
+    static_ip: #######
+    gateway: #######
+    subnet: ######
+  
+captive_portal:
+logger:
+api:
+ota:
+web_server:
+
+# i2c required for BME280 sensor
+i2c:
+  sda: 21 #ESP32 pin correct for PCB
+  scl: 22 #ESP32 pin correct for PCB
+  scan: true
+  id: bus_a
+
+# Buttons not needed but allow fr remote restart and safe mode
+button:
+  - platform: restart
+    name: "Bedsensor Restart"
+  - platform: safe_mode
+    name: "Bedsensor (Safe Mode)"
+    
+sensor:
+#Bed sensor section
+  - platform: adc # for bedsensor FSR
+    pin: GPIO34 #ADC pin on ESP32 correct for PCB
+    attenuation: 11db
+    name: "Left Bed Sensor"
+    id: "Left_bed_sensor"
+    icon: mdi:bed
+    update_interval: 0.5s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 10
+          send_every: 1
+      - or:
+          - throttle: 180s
+          - delta: 0.02
+  - platform: adc
+    pin: GPIO35 #ADC pin on ESP32 correct for PCB
+    attenuation: 11db
+    name: "Right Bed Sensor"
+    id: "Right_bed_sensor"
+    icon: mdi:bed
+    update_interval: 0.5s
+    filters:
+      - sliding_window_moving_average:
+          window_size: 10
+          send_every: 1
+      - or:
+          - throttle: 180s
+          - delta: 0.02
+  - platform: homeassistant
+    name: "Left Bed Trigger Level"
+    id: "Left_bed_trigger_level"
+    entity_id: input_number.Left_bed_trigger_level #must be set up in HA
+  - platform: homeassistant
+    name: "Right Bed Trigger Level"
+    id: "Right_bed_trigger_level"
+    entity_id: input_number.Right_bed_trigger_level #must be set up in HA
+
+#BME280 section
+
+  - platform: bme280
+    temperature:
+      name: "Bedroom Temperature"
+      id: bme280_temperature
+    pressure:
+      name: "Bedroom Air Pressure"
+      id: bme280_pressure
+    humidity:
+      name: "Bedroom Relative Humidity"
+      id: bme280_humidity
+    address: 0x77
+    update_interval: 15s
+  - platform: template
+    name: "Altitude"
+    lambda: |-
+      const float STANDARD_SEA_LEVEL_PRESSURE = 1013.25; //in hPa
+      return ((id(bme280_temperature).state + 273.15) / 0.0065) *
+        (powf((STANDARD_SEA_LEVEL_PRESSURE / id(bme280_pressure).state), 0.190234) - 1); // in meters
+    update_interval: 15s
+    icon: 'mdi:signal'
+    unit_of_measurement: 'm'
+  - platform: template
+    name: "Absolute Humidity"
+    lambda: |-
+      const float mw = 18.01534;    // molar mass of water g/mol
+      const float r = 8.31447215;   // Universal gas constant J/mol/K
+      return (6.112 * powf(2.718281828, (17.67 * id(bme280_temperature).state) /
+        (id(bme280_temperature).state + 243.5)) * id(bme280_humidity).state * mw) /
+        ((273.15 + id(bme280_temperature).state) * r); // in grams/m^3
+    accuracy_decimals: 2
+    update_interval: 15s
+    icon: 'mdi:water'
+    unit_of_measurement: 'g/m³'
+  - platform: template
+    name: "Dew Point"
+    lambda: |-
+      return (243.5*(log(id(bme280_humidity).state/100)+((17.67*id(bme280_temperature).state)/
+      (243.5+id(bme280_temperature).state)))/(17.67-log(id(bme280_humidity).state/100)-
+      ((17.67*id(bme280_temperature).state)/(243.5+id(bme280_temperature).state))));
+    unit_of_measurement: °C
+    icon: 'mdi:thermometer-alert'
+# Wifi signal and uptime - not needed but nice to have
+  - platform: wifi_signal
+    name: "Bedsensor WiFi Signal"
+    update_interval: 300s
+  - platform: uptime # converted by text sensor into readable form
+    name: Uptime Sensor
+    update_interval: 113s
+    id: uptime_sec
+
+text_sensor:
+# Makes readable uptime, include is uptime sensor above is used
+  - platform: template 
+    name: Bedsensor Uptime
+    lambda: |-
+      int seconds = (id(uptime_sec).state);
+      int days = seconds / (24 * 3600);
+      seconds = seconds % (24 * 3600); 
+      int hours = seconds / 3600;
+      seconds = seconds % 3600;
+      int minutes = seconds /  60;
+      seconds = seconds % 60;
+      return { (String(days) +"d " + String(hours) +"h " + String(minutes) +"m "+ String(seconds) +"s").c_str() };
+    icon: mdi:clock-start
+    update_interval: 113s
+# Gives IP and SSID info if required, not needed
+  - platform: wifi_info
+    ip_address:
+      name: Bedsensor IP Address
+      id: bedsensorip
+    ssid:
+      name: Bedsensor SSID
+      id: bedsensorssid
+
+# Bed occupancy
+binary_sensor:
+  - platform: template
+    name: "Left Bed Occupied"
+    device_class: occupancy
+    id: leftoccupancy
+    # Checks to see if voltage is lower than the trigger level set via input number, if so it sets left bed side to occupied
+    lambda: |-
+      if (id(Left_bed_sensor).state < id(Left_bed_trigger_level).state) {
+        return true;
+      } else {
+        return false;
+      }
+  - platform: template
+    name: "Right Bed Occupied"
+    id: rightoccupancy
+    # Checks to see if voltage is lower than the trigger level set via input number, if so it sets right bed side to occupied
+    device_class: occupancy
+    lambda: |-
+      if (id(Right_bed_sensor).state < id(Right_bed_trigger_level).state) {
+        return true;
+      } else {
+        return false;
+      }
+ 
