@@ -87,7 +87,7 @@ sensor:
     humidity:
       name: "Bedroom Relative Humidity"
       id: bme280_humidity
-    address: 0x77
+    address: 0x76
     update_interval: 15s
   - platform: template
     name: "Altitude"
