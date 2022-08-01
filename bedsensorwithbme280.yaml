@@ -75,40 +75,16 @@ sensor:
     id: "Right_bed_trigger_level"
     entity_id: input_number.Right_bed_trigger_level #must be set up in HA
 
-#BME280 section
+#BMP280 section
 
-  - platform: bme280
+  - platform: bmep80
     temperature:
       name: "Bedroom Temperature"
-      id: bme280_temperature
+      id: bmp280_temperature
     pressure:
       name: "Bedroom Air Pressure"
-      id: bme280_pressure
-    humidity:
-      name: "Bedroom Relative Humidity"
-      id: bme280_humidity
-    address: 0x76
-    update_interval: 15s
-  - platform: template
-    name: "Absolute Humidity"
-    lambda: |-
-      const float mw = 18.01534;    // molar mass of water g/mol
-      const float r = 8.31447215;   // Universal gas constant J/mol/K
-      return (6.112 * powf(2.718281828, (17.67 * id(bme280_temperature).state) /
-        (id(bme280_temperature).state + 243.5)) * id(bme280_humidity).state * mw) /
-        ((273.15 + id(bme280_temperature).state) * r); // in grams/m^3
-    accuracy_decimals: 2
-    update_interval: 15s
-    icon: 'mdi:water'
-    unit_of_measurement: 'g/m³'
-  - platform: template
-    name: "Dew Point"
-    lambda: |-
-      return (243.5*(log(id(bme280_humidity).state/100)+((17.67*id(bme280_temperature).state)/
-      (243.5+id(bme280_temperature).state)))/(17.67-log(id(bme280_humidity).state/100)-
-      ((17.67*id(bme280_temperature).state)/(243.5+id(bme280_temperature).state))));
-    unit_of_measurement: °C
-    icon: 'mdi:thermometer-alert'
+      id: bmp280_pressure
+   
   # Wifi signal and uptime - not needed but nice to have
   - platform: wifi_signal
     name: "Bedsensor WiFi Signal"
