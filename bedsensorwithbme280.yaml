@@ -90,15 +90,6 @@ sensor:
     address: 0x76
     update_interval: 15s
   - platform: template
-    name: "Altitude"
-    lambda: |-
-      const float STANDARD_SEA_LEVEL_PRESSURE = 1013.25; //in hPa
-      return ((id(bme280_temperature).state + 273.15) / 0.0065) *
-        (powf((STANDARD_SEA_LEVEL_PRESSURE / id(bme280_pressure).state), 0.190234) - 1); // in meters
-    update_interval: 15s
-    icon: 'mdi:signal'
-    unit_of_measurement: 'm'
-  - platform: template
     name: "Absolute Humidity"
     lambda: |-
       const float mw = 18.01534;    // molar mass of water g/mol
@@ -118,7 +109,7 @@ sensor:
       ((17.67*id(bme280_temperature).state)/(243.5+id(bme280_temperature).state))));
     unit_of_measurement: °C
     icon: 'mdi:thermometer-alert'
-# Wifi signal and uptime - not needed but nice to have
+  # Wifi signal and uptime - not needed but nice to have
   - platform: wifi_signal
     name: "Bedsensor WiFi Signal"
     update_interval: 300s
