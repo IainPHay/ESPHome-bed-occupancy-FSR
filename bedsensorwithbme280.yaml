@@ -1,20 +1,26 @@
+substitutions:
+  roomname: roomname
+  yourname: Name
+  # for iwatch presence detection
+  #rssi_present: id(rssi_present).state
+  #rssi_not_present: id(rssi_not_present).state
 esphome:
-  name: bedsensor
+  name: $roomname
   platform: ESP32
-  board: esp32dev
+  board: esp32doit-devkit-v1
 
 wifi:
   ssid: "ssid" #Change as required
   password: "password" #Change as required
   
   ap:
-    ssid: "Bed sensor fallback Hotspot" #Change as required
+    ssid: ESPHome $roomname
     password: "bedsensor" #Change as required
   
-  manual_ip:
-    static_ip: #######
-    gateway: #######
-    subnet: ######
+  manual_ip: #enter static ip and network
+    static_ip: ###.###.###.###
+    gateway: ###.###.###.###
+    subnet: ###.###.###.###
   
 captive_portal:
 logger:
@@ -22,20 +28,52 @@ api:
 ota:
 web_server:
 
-# i2c required for BME280 sensor
+# i2c required for BMP280 sensor
 i2c:
   sda: 21 #ESP32 pin correct for PCB
   scl: 22 #ESP32 pin correct for PCB
   scan: true
-  id: bus_a
-
-# Buttons not needed but allow fr remote restart and safe mode
+  
+# Buttons not needed but allow for remote restart and safe mode
 button:
   - platform: restart
     name: "Bedsensor Restart"
   - platform: safe_mode
     name: "Bedsensor (Safe Mode)"
-    
+#watch tracking
+esp32_ble_tracker:
+  scan_parameters:
+    interval: 1.2s
+    window: 500ms
+    active: false
+  on_ble_advertise:
+    - then:
+      # Look for manufacturer data of form: 4c00 10 05 YY 98 XXXXXX
+      # Where YY can be 01..0F or 20..2F; and XXXXXX is ignored
+      - lambda: |-
+          optional<int16_t> best_rssi = nullopt;
+          for (auto data : x.get_manufacturer_datas()) {
+            // Guard against non-Apple datagrams, or those that are too small.
+            if (data.data.size() < 4 || data.uuid.to_string() != "0x004C" || data.data[0] != 0x10 || data.data[1] < 5) {
+              continue;
+            }
+            const int16_t rssi = x.get_rssi();
+            const uint8_t status_flags = data.data[2] >> 4;  // High nibble
+            const uint8_t data_flags = data.data[3];
+            
+            if (data_flags == 0x98) {  // Match unlocked Apple Watch. To also match locked watch use: if (data_flags == 0x98 || data_flags == 0x18) {
+              if (status_flags == 0 || status_flags == 2) {
+                best_rssi = max(rssi, best_rssi.value_or(rssi));
+                ESP_LOGD("ble_adv", "Found Apple Watch (mac %s) rssi %i", x.address_str().c_str(), rssi);
+              } else {
+                ESP_LOGD("ble_adv", "Possible Apple Watch? (mac %s) rssi %i, unrecognised status/action flags %#04x", x.address_str().c_str(), rssi, data.data[2]);
+              }
+            }
+          }
+          if (best_rssi) {
+            id(apple_watch_rssi).publish_state(*best_rssi);
+          }
+          
 sensor:
 #Bed sensor section
   - platform: adc # for bedsensor FSR
@@ -66,26 +104,17 @@ sensor:
       - or:
           - throttle: 180s
           - delta: 0.02
-  - platform: homeassistant
-    name: "Left Bed Trigger Level"
-    id: "Left_bed_trigger_level"
-    entity_id: input_number.Left_bed_trigger_level #must be set up in HA
-  - platform: homeassistant
-    name: "Right Bed Trigger Level"
-    id: "Right_bed_trigger_level"
-    entity_id: input_number.Right_bed_trigger_level #must be set up in HA
-
 #BMP280 section
-
-  - platform: bmep80
+  - platform: bmp280
     temperature:
       name: "Bedroom Temperature"
       id: bmp280_temperature
     pressure:
       name: "Bedroom Air Pressure"
       id: bmp280_pressure
-   
-  # Wifi signal and uptime - not needed but nice to have
+    address: 0x76
+    update_interval: 15s
+# Wifi signal and uptime - not needed but nice to have
   - platform: wifi_signal
     name: "Bedsensor WiFi Signal"
     update_interval: 300s
@@ -93,9 +122,44 @@ sensor:
     name: Uptime Sensor
     update_interval: 113s
     id: uptime_sec
-
+#Watch section
+  - platform: template
+    id: apple_watch_rssi
+    name: "$yourname Apple Watch $roomname RSSI"
+    device_class: signal_strength
+    unit_of_measurement: dBm
+    accuracy_decimals: 0
+    filters:
+      - exponential_moving_average:
+          alpha: 0.3
+          send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (id(apple_watch_rssi).state > $rssi_present) {
+              id(room_presence_debounce).publish_state(1);
+            } else if (id(apple_watch_rssi).state < $rssi_not_present) {
+              id(room_presence_debounce).publish_state(0);
+            }
+        - script.execute: presence_timeout  # Publish 0 if no rssi received
+  
+  - platform: template
+    id: room_presence_debounce
+    filters:
+      - sliding_window_moving_average:
+          window_size: 3
+          send_every: 1
+# Wifi signal and uptime - not needed but nice to have
+  - platform: wifi_signal
+    name: "Bedsensor WiFi Signal"
+    update_interval: 300s
+  - platform: uptime # converted by text sensor into readable form
+    name: Uptime Sensor
+    update_interval: 113s
+    id: uptime_sec
+    
 text_sensor:
-# Makes readable uptime, include is uptime sensor above is used
+# Makes readable uptime
   - platform: template 
     name: Bedsensor Uptime
     lambda: |-
@@ -109,7 +173,7 @@ text_sensor:
       return { (String(days) +"d " + String(hours) +"h " + String(minutes) +"m "+ String(seconds) +"s").c_str() };
     icon: mdi:clock-start
     update_interval: 113s
-# Gives IP and SSID info if required, not needed
+# Gives IP and SSID info
   - platform: wifi_info
     ip_address:
       name: Bedsensor IP Address
@@ -142,4 +206,58 @@ binary_sensor:
       } else {
         return false;
       }
- 
+# watch section
+  - platform: template
+    id: room_presence
+    name: "$yourname $roomname presence"
+    device_class: occupancy
+    lambda: |-
+      if (id(room_presence_debounce).state > 0.99) {
+        return true;
+      } else if (id(room_presence_debounce).state < 0.01) {
+        return false;
+      } else {
+        return id(room_presence).state;
+      }
+# Adds two settings for bed trigger levels 
+number:
+  - platform: template
+    name: "Left Bed Trigger Level"
+    id: "Left_bed_trigger_level"
+    optimistic: true
+    min_value: 0
+    max_value: 3.5
+    step: 0.05
+    icon: mdi:arrow-collapse-down
+    unit_of_measurement: V 
+  - platform: template
+    name: "Right Bed Trigger Level"
+    id: "Right_bed_trigger_level"
+    optimistic: true
+    min_value: 0
+    max_value: 3.5
+    step: 0.05
+    icon: mdi:arrow-collapse-down
+    unit_of_measurement: V
+  # set rssi for iwatch detecion
+  - platform: template
+    name: RSSI Present Value
+    entity_id: number.rssi_bedroom_present
+    id: rssi_present
+    internal: true
+  - platform: template
+    name: RSSI Not Present Value
+    entity_id: number.rssi_bedroom_not_present
+    id: rssi_not_present
+    internal: true
+    
+ #iwatch
+  script:
+ #  Publish event every 30 seconds when no rssi received
+  id: presence_timeout
+  mode: restart
+  then:
+    - delay: 30s
+    - lambda: |-
+        id(room_presence_debounce).publish_state(0);
+    - script.execute: presence_timeout
