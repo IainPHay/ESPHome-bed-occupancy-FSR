@@ -15,11 +15,11 @@ One end of each FSR is connects to 3.3V and the other to an ADC pin, an addition
 
 The resistance needed is Sqrt (in bed*out of bed)
 
-Set the trim pot for each side to the value determined, you will need a multimeter connected to the PCB, do not at this stage have the FSR or ESP32 connected. The resistance for each side can be measured between the pin and the 3.3V pin.
+Set the trim pot for each side to the value determined, you will need a multimeter connected to the PCB, do not at this stage have the FSR or ESP32 connected. The resistance for each side can be measured between the pin and the 3.3V pin. When you connect this to the FSRs I have found you want to set it so that the out of bed reading from the ESPHome sensor is about 2.9V. Clockwise turns on the trim pot reduce the voltage, you can just do this instead of measuring resistance.
 
-The FSRs can then be connected, one wire from each FSR goes into the 3.3V terminal and then the other wires go into their respective terminals. The ESP32 (previously Flashed with ESPHome code) can be connected along with an i2c device if desired, exampel code shows nothign and also option with BMP280 for temperature and pressure. In addition an example is given where the bluetooth on board is also used for iwatch tracking (to add).
+The FSRs can then be connected, one wire from each FSR goes into the 3.3V terminal and then the other wires go into their respective terminals. The ESP32 (previously Flashed with ESPHome code) can be connected along with an i2c device if desired, example code shows nothing and also option with BMP280 for temperature and pressure. In addition an example is given where the bluetooth on board is also used for iwatch tracking (to add).
 
-I have had some issues with power on the ESP32 I used (suggested ESP32 to be added to BOM) I resolved this by flashing and then connecting it to a decent powersupply which seems to sort it.
+I have had some issues with power on the ESP32 I used (suggested ESP32 to be added to BOM) I resolved this by flashing and then connecting it to a decent power supply which seems to sort it.
 
 Example code is attached. 
 
