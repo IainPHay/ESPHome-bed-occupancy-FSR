@@ -25,10 +25,11 @@ Example code is attached.
 
 The occupancy sensor can be used for whatever you want, turning a lowlevel light on if up in night is one example. I also use node red with an and gate to estabish when both people up in the morning to open all the blinds, turn on the kettle etc.
 
-PCBs
-2 PCBS have been designed allowing for a dual bed sensor with trim pots on the board to allow for resistance adjustment on the device, one has the capability of adding a BME280 (or other i2c) for room humidity, pressure and temperature. Schematics of both circuits and gerbers are in repo.
+PCB
+A PCB have been designed allowing for a dual bed sensor with trim pots on the board to allow for resistance adjustment on the device, you can add an i2c device for example a BME280 for room humidity, pressure and temperature but it's not needed. Schematic and gerbers are in repo.
 
-![image](https://user-images.githubusercontent.com/25230544/179230641-26b3b8c0-e3bf-4bc9-a9b1-91147b33f9e2.png)
+![image](https://user-images.githubusercontent.com/25230544/213453713-87fe6fbe-26c4-4dbe-aaa1-92949d8bd352.png)
+
 
 
 Example yaml for both is included, BOM to be added.
