@@ -1,5 +1,7 @@
 # ESPHome-bed-occupancy-FSR in Homeasistant
 
+Easy EDA files added.
+
 Bed sensor based on Force Sensitive Resistor (FSR) for double bed works for each side, can just use one side if required. One FSR (60cm recommended) is fixed to a slat on each side underneath middle of sleeping position. Each sensor is soldered to bell wire and heat shrink used to reinforce the join, extreme care is needed to do this as you do not want to melt the plastic tape, you can purchase connectors instead if not confident but it really is very easy. I suggest pretinning the bell wire and tapeing the wire and FSR down to a flat surface the tinned wire on top of the copper contact area of FSR, a tiny dab with solder iron and solder wil make the join. 
 The FSR tapes are stuck down to the slat but recomend each strip is also held down with wrap of masking tape all around the slat just for extra protection.
 
