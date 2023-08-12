@@ -1,0 +1,395 @@
+{
+  "uuid": "3dbb9defc132d1196db9934ec91c1f72",
+  "path": "Offline/ESP32%20Bedsensor%20Dual%20with%20BME%2030pin",
+  "name": "ESP32 Bedsensor Dual with BME 30pin",
+  "content": "",
+  "created_at": "2023-01-23 11:51:27",
+  "updated_at": "2023-08-12 16:35:34",
+  "stick": "",
+  "documents": [
+    {
+      "uuid": "c3914fac8565d8040dd2e08291a550b4",
+      "title": "Schematic",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "cda6ed5533a3430b82d1f181e114cbe4": 1,
+        "4fdf3bcbac0345cb87bb620bfc171f9d": 1,
+        "9d79cec753324a99a25d5a8c86077852": 1,
+        "069a8fd7c282d43582f251075b545500": 2
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "BME280",
+          1,
+          "BME280",
+          "Z1",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4a19b20c0d164685a670d324affa0792",
+            "uuid": "4fdf3bcbac0345cb87bb620bfc171f9d"
+          }
+        ],
+        [
+          "ESP32 Bed Sensor",
+          1,
+          "ESP32_DOIT_DEVKIT_1_18X2",
+          "Z2",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "16f196688cb344f59efbc02ee8b25f9b",
+            "uuid": "cda6ed5533a3430b82d1f181e114cbe4"
+          }
+        ],
+        [
+          "DB301V-5.0-3P",
+          1,
+          "CONN-TH_DB301V-5.0-3P",
+          "Z3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C395881",
+            "BOM_Manufacturer": "DIBO",
+            "BOM_Manufacturer Part": "DB301V-5.0-3P",
+            "puuid": "f750daa373f4414dbbd32b491896e604",
+            "uuid": "9d79cec753324a99a25d5a8c86077852"
+          }
+        ],
+        [
+          "RHOS 3296W-1-103LF",
+          2,
+          "RES-ADJ_3296W",
+          "Z4,Z5",
+          {
+            "BOM_Supplier Part": "undefined",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "RHOS 3296W-1-103LF",
+            "puuid": "a4ca010af9624cec8388569e4d5538a0",
+            "uuid": "069a8fd7c282d43582f251075b545500"
+          }
+        ],
+        [
+          "HDR-F-2.54_1x4",
+          1,
+          "HDR-F-2.54_1X4",
+          "H1",
+          {
+            "BOM_Supplier Part": "C225501",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "21473b495b6340c992965357d5701779",
+            "uuid": "eaa76950fd7343a1953943ee7b9978d3"
+          }
+        ],
+        [
+          "BME280",
+          1,
+          "BME280",
+          "Z6",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4a19b20c0d164685a670d324affa0792",
+            "uuid": "4fdf3bcbac0345cb87bb620bfc171f9d"
+          }
+        ],
+        [
+          "ESP32 Bed Sensor",
+          1,
+          "ESP32_DOIT_DEVKIT_1_18X2",
+          "Z7",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "16f196688cb344f59efbc02ee8b25f9b",
+            "uuid": "cda6ed5533a3430b82d1f181e114cbe4"
+          }
+        ],
+        [
+          "DB301V-5.0-3P",
+          1,
+          "CONN-TH_DB301V-5.0-3P",
+          "Z8",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C395881",
+            "BOM_Manufacturer": "DIBO",
+            "BOM_Manufacturer Part": "DB301V-5.0-3P",
+            "puuid": "f750daa373f4414dbbd32b491896e604",
+            "uuid": "9d79cec753324a99a25d5a8c86077852"
+          }
+        ],
+        [
+          "RHOS 3296W-1-103LF",
+          2,
+          "RES-ADJ_3296W",
+          "Z9,Z10",
+          {
+            "BOM_Supplier Part": "undefined",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "RHOS 3296W-1-103LF",
+            "puuid": "a4ca010af9624cec8388569e4d5538a0",
+            "uuid": "069a8fd7c282d43582f251075b545500"
+          }
+        ]
+      ],
+      "updateTime": 1660407897,
+      "createTime": 1657835353,
+      "histories": [],
+      "created_at": "2022-07-14 22:49:13",
+      "updated_at": "2022-08-13 17:24:57"
+    },
+    {
+      "uuid": "a05fd6f7aa88ba031753f2d6ece7a3aa",
+      "title": "V2 Schematic",
+      "description": "",
+      "docType": "1",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "cda6ed5533a3430b82d1f181e114cbe4": 1,
+        "4fdf3bcbac0345cb87bb620bfc171f9d": 1,
+        "9d79cec753324a99a25d5a8c86077852": 1,
+        "069a8fd7c282d43582f251075b545500": 2,
+        "eaa76950fd7343a1953943ee7b9978d3": 1
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ],
+        [
+          "BME280",
+          1,
+          "BME280",
+          "Z1",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4a19b20c0d164685a670d324affa0792",
+            "uuid": "4fdf3bcbac0345cb87bb620bfc171f9d"
+          }
+        ],
+        [
+          "ESP32 Bed Sensor",
+          1,
+          "ESP32_DOIT_DEVKIT_1_18X2",
+          "Z2",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "16f196688cb344f59efbc02ee8b25f9b",
+            "uuid": "cda6ed5533a3430b82d1f181e114cbe4"
+          }
+        ],
+        [
+          "DB301V-5.0-3P",
+          1,
+          "CONN-TH_DB301V-5.0-3P",
+          "Z3",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C395881",
+            "BOM_Manufacturer": "DIBO",
+            "BOM_Manufacturer Part": "DB301V-5.0-3P",
+            "puuid": "f750daa373f4414dbbd32b491896e604",
+            "uuid": "9d79cec753324a99a25d5a8c86077852"
+          }
+        ],
+        [
+          "RHOS 3296W-1-103LF",
+          2,
+          "RES-ADJ_3296W",
+          "Z4,Z5",
+          {
+            "BOM_Supplier Part": "undefined",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "RHOS 3296W-1-103LF",
+            "puuid": "a4ca010af9624cec8388569e4d5538a0",
+            "uuid": "069a8fd7c282d43582f251075b545500"
+          }
+        ],
+        [
+          "HDR-F-2.54_1x4",
+          1,
+          "HDR-F-2.54_1X4",
+          "H1",
+          {
+            "BOM_Supplier Part": "C225501",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "21473b495b6340c992965357d5701779",
+            "uuid": "eaa76950fd7343a1953943ee7b9978d3"
+          }
+        ],
+        [
+          "BME280",
+          1,
+          "BME280",
+          "Z6",
+          {
+            "BOM_Manufacturer": "",
+            "BOM_Manufacturer Part": "",
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "puuid": "4a19b20c0d164685a670d324affa0792",
+            "uuid": "4fdf3bcbac0345cb87bb620bfc171f9d"
+          }
+        ],
+        [
+          "ESP32 Bed Sensor",
+          1,
+          "ESP32_DOIT_DEVKIT_1_18X2",
+          "Z7",
+          {
+            "BOM_Supplier Part": "",
+            "BOM_Supplier": "",
+            "BOM_Manufacturer Part": "",
+            "puuid": "16f196688cb344f59efbc02ee8b25f9b",
+            "uuid": "cda6ed5533a3430b82d1f181e114cbe4"
+          }
+        ],
+        [
+          "DB301V-5.0-3P",
+          1,
+          "CONN-TH_DB301V-5.0-3P",
+          "Z8",
+          {
+            "BOM_Supplier": "LCSC",
+            "BOM_Supplier Part": "C395881",
+            "BOM_Manufacturer": "DIBO",
+            "BOM_Manufacturer Part": "DB301V-5.0-3P",
+            "puuid": "f750daa373f4414dbbd32b491896e604",
+            "uuid": "9d79cec753324a99a25d5a8c86077852"
+          }
+        ],
+        [
+          "RHOS 3296W-1-103LF",
+          2,
+          "RES-ADJ_3296W",
+          "Z9,Z10",
+          {
+            "BOM_Supplier Part": "undefined",
+            "BOM_Supplier": "LCSC",
+            "BOM_Manufacturer": "ReliaPro",
+            "BOM_Manufacturer Part": "RHOS 3296W-1-103LF",
+            "puuid": "a4ca010af9624cec8388569e4d5538a0",
+            "uuid": "069a8fd7c282d43582f251075b545500"
+          }
+        ]
+      ],
+      "updateTime": 1661961716,
+      "createTime": 1660407295,
+      "histories": [],
+      "created_at": "2022-08-13 17:14:55",
+      "updated_at": "2022-08-31 17:01:56"
+    },
+    {
+      "uuid": "4b5fa079eafc4d503fdd0a740311fd2b",
+      "title": "PCB_ESP32 Bedsensor Dual with BME",
+      "filename": "PCB_ESP32 Bedsensor Dual with BME.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "16f196688cb344f59efbc02ee8b25f9b": 1,
+        "4a19b20c0d164685a670d324affa0792": 1,
+        "f750daa373f4414dbbd32b491896e604": 1,
+        "a4ca010af9624cec8388569e4d5538a0": 2
+      },
+      "BOM": [],
+      "updateTime": 1657881267,
+      "createTime": 1657876946,
+      "histories": [],
+      "created_at": "2022-07-15 10:22:26",
+      "updated_at": "2022-07-15 11:34:27"
+    },
+    {
+      "uuid": "7eff438589cfa6b20b403e43ea8abc3a",
+      "title": "PCB_ESP32 Bedsensor Dual with BME ground plane",
+      "filename": "PCB_ESP32 Bedsensor Dual with BME ground plane.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "4a19b20c0d164685a670d324affa0792": 1,
+        "f750daa373f4414dbbd32b491896e604": 1,
+        "a4ca010af9624cec8388569e4d5538a0": 2,
+        "16f196688cb344f59efbc02ee8b25f9b": 1
+      },
+      "BOM": [],
+      "updateTime": 1660407237,
+      "createTime": 1657885964,
+      "histories": [],
+      "created_at": "2022-07-15 12:52:44",
+      "updated_at": "2022-08-13 17:13:57"
+    },
+    {
+      "uuid": "b74594a89b70f3d289483252a0ef19ee",
+      "title": "PCB_ESP32 Bedsensor Dual with BME ground plane v2",
+      "filename": "PCB_ESP32 Bedsensor Dual with BME ground plane v2.json",
+      "description": "",
+      "docType": "3",
+      "master": "",
+      "thumb": "/images/thumb-default.png",
+      "components": {
+        "16f196688cb344f59efbc02ee8b25f9b": 1,
+        "4a19b20c0d164685a670d324affa0792": 1,
+        "f750daa373f4414dbbd32b491896e604": 1,
+        "a4ca010af9624cec8388569e4d5538a0": 2
+      },
+      "BOM": [
+        [
+          "Value",
+          "Quantity",
+          "Package",
+          "Components",
+          "CustomPara"
+        ]
+      ],
+      "updateTime": 1674134156,
+      "createTime": 1661869222,
+      "histories": [],
+      "created_at": "2022-08-30 15:20:22",
+      "updated_at": "2023-01-19 13:15:56"
+    }
+  ],
+  "sort": [
+    "c3914fac8565d8040dd2e08291a550b4",
+    "a05fd6f7aa88ba031753f2d6ece7a3aa"
+  ],
+  "title": "ESP32 Bedsensor Dual with BME 30pin",
+  "foldername": "ESP32 Bedsensor Dual with BME 30pin",
+  "schfilename": "ESP32 Bedsensor Dual with BME 30pin.json",
+  "schfilemtime": 1674474687257.8132
+}
